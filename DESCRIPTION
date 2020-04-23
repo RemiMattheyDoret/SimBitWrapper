@@ -4,7 +4,8 @@ Version: 1.0.0
 Authors@R: 
     person(given = "Remi",
            family = "Matthey-Doret",
-           role = c("aut"),
+           email = "remi.b.md@gmail.com",
+           role = c("aut", "cre"),
            email = "remi.b.md@gmail.com",
            comment = c(ORCID = "0000-0001-5614-5629"))
 Description: The package is a wrapper for SimBit (SimBit is a simulation platform for evolutionary genetic studies).
