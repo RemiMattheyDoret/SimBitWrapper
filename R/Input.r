@@ -132,7 +132,14 @@ Input = R6::R6Class(
             {
                 cat( paste(private$data, collapse="\n") )
             }
+        },
+
+        run = function(exec = "SimBit")
+        {
+            system(paste(exec, paste(private$data, collapse=" ")))
         }
+
+
     )
 )
 

@@ -1,4 +1,4 @@
-ParameterGrid = function(...)
+fullFactorial = function(..., outputFilePrefix = NULL)
 {
 	input = list(...)
 	Names = rep("",length(input))
@@ -29,6 +29,10 @@ ParameterGrid = function(...)
 	}
 	names(SGrid) = Names
 
+	if (!is.null(outputFilePrefix))
+	{
+		SGrid$outputFile = paste0(outputFilePrefix, 1:nrow(SGrid))
+	}
 
 	return(SGrid)
 }

@@ -1,13 +1,19 @@
 Package: SimBitWrapper
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: R wrapper for SimBit
+Version: 1.0.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+    person(given = "Remi",
+           family = "Matthey-Doret",
+           role = c("aut"),
+           email = "remi.b.md@gmail.com",
+           comment = c(ORCID = "0000-0001-5614-5629"))
+Description: The package is a wrapper for SimBit (SimBit is a simulation platform for evolutionary genetic studies).
+License: MIT
 Encoding: UTF-8
 LazyData: true
+Depends:
+    R (>= 2.15),
+Imports:
+    data.table
+Suggests:
+URL: https://github.com/RemiMattheyDoret
