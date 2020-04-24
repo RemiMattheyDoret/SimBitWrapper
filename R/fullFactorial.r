@@ -60,19 +60,3 @@ fullFactorial = function(..., outputFilePrefix = NULL)
 
 	return(SGrid)
 }
-
-#fullFactorial(list(a=1:3),list(b=1:3))
-fullFactorial(a=1:3,b=1:3, list(c=1:3, d=1:3), e=c("x", "y"))
-
-f = function(...){
-	input = list(sapply(X=list(...), FUN=list))
-	print(input)
-}
-f(a=1:3, b=1:3)
-
-f2 = function(...){
-	input = list(...)
-	print(input)
-}
-f2(a=1:3, b=1:3)
-
