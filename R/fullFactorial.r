@@ -1,7 +1,7 @@
 fullFactorial = function(..., outputFilePrefix = NULL)
 {
 	input = list(...)
-	#print(input)
+	
 	Names = rep("",length(input))
 	for (big in 1:length(input))
 	{
@@ -17,13 +17,11 @@ fullFactorial = function(..., outputFilePrefix = NULL)
 		if (length(name)>1) stop("error: length(name)>1")
 		Names[big] = name
 	}
-	#print(paste0("Names = ", paste(Names, collapse=" ")))
+	
 
 	FirstCol = list()
 	for (elem in input)
 	{
-		#print(paste0("elem = ", paste(elem, collapse=" ")))
-		#print(paste0("class of elem = ", class(elem)))
 		if (class(elem)=="list")
 		{
 			FirstCol[[length(FirstCol)+1]] = elem[[1]]
@@ -33,7 +31,6 @@ fullFactorial = function(..., outputFilePrefix = NULL)
 		}
 	}
 
-	#print(FirstCol)
 	SGrid = expand.grid(FirstCol)
 	Cols = FirstCol
 	for (big in 1:length(input))
