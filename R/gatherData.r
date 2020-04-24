@@ -1,15 +1,28 @@
 
 gatherData = function(paramGrid, columnNameOutputFile = NULL, fun = defaultFunctionForGatherData)
 {
-
-	if (class(paramGrid) != "data.frame"))
+	if (class(paramGrid) != "data.frame")
 	{
-		stop("paramGrid is not a data.frame")
+		stop(paste0("paramGrid is not a data.frame but a ", class(paramGrid), "."))
 	}
 
 	if (is.null(columnNameOutputFile))
 	{
 		columnNameOutputFile = "outputFile"
+		if (!(columnNameOutputFile %in% names(paramGrid)))
+		{
+			stop(paste0("The column name ", columnNameOutputFile, " (default argument) does not exists in the paramGrid"))
+		}
+	}
+
+	if (nrow(paramGrid) == 0)
+	{
+		stop("The parameter paramGrid is empty!")
+	}
+
+	if (!(columnNameOutputFile %in% names(paramGrid)))
+	{
+		stop(paste0("The column name ", columnNameOutputFile, " does not exists in the paramGrid"))
 	}
 
 	outputsGathered = data.frame()
