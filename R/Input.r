@@ -184,7 +184,7 @@ Input = R6::R6Class(
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
     
-            while (!self$isAThreadAvailable(maxNbThreads))
+            while (!isAThreadAvailable(maxNbThreads))
             {
                 Sys.sleep(sleepTimeInSec)
             }
