@@ -191,7 +191,7 @@ Input = R6::R6Class(
 
             newThread = processx::process$new(exec, paste(data, collapse=" "))
 
-            #newThread = system(paste(executable, paste(parameters, collapse=" "), "& &> /dev/null; echo $!"), intern = TRUE)
+            #newThread = system(paste(exec, paste(data, collapse=" "), "& &> /dev/null; echo $!"), intern = TRUE)
 
             private$shared$runningThreads = c(private$shared$runningThreads, newThread)
 
