@@ -25,22 +25,30 @@ gatherData = function(paramGrid, columnNameOutputFile = NULL, fun = defaultFunct
 		stop(paste0("The column name ", columnNameOutputFile, " does not exists in the paramGrid"))
 	}
 
-	outputsGathered = data.frame()
-	for (row in 1:nrow(paramGrid))
-	{
-		path = paramGrid[[columnNameOutputFile]][row]
-		if (class(path) == "factor")
-		{
-			path = paste(path)
-		} else
-		{
-			if (class(path) != "character")
-			{
-				stop(paste0("At row ", row, " of the column ", columnNameOutputFile, " of paramGrid, found a value that is not a character, not a factor. It is a ", class(path), "."))
-			}
-		}
 
-		outputsGathered[row,] = fun(path)
+	firstFileData = fun(paramGrid[[columnNameOutputFile]][1])
+	outputsGathered = as.data.frame(matrix(ncol = ncol(firstFileData), nrow=nrow(paramGrid)))
+	names(outputsGathered) = names(firstFileData)
+	outputsGathered[1,] = firstFileData
+
+	if (nrow(paramGrid) > 1)
+	{
+		for (row in 2:nrow(paramGrid))
+		{
+			path = paramGrid[[columnNameOutputFile]][row]
+			if (class(path) == "factor")
+			{
+				path = paste(path)
+			} else
+			{
+				if (class(path) != "character")
+				{
+					stop(paste0("At row ", row, " of the column ", columnNameOutputFile, " of paramGrid, found a value that is not a character, not a factor. It is a ", class(path), "."))
+				}
+			}
+
+			outputsGathered[row,] = fun(path)
+		}
 	}
 
 

@@ -12,7 +12,8 @@ defaultFunctionForGatherData = function(path)
 		file = file[!grepl("*\\.*[^.]", file)]
 		stop(paste0("In the default function 'fun' of 'gatherData', tried to find a single file associate with path '", path, "'. (dir:", directory, " | pattern:", pattern, ") but it found ", length(file), " files."))
 	}
-	d = data.table::fread(path, header=TRUE)
+
+	d = data.table::fread(file, header=TRUE)
 	if (nrow(d) > 1)
 	{
 		stop(paste0("The default 'fun' argument to 'gatherData' assumes that each file has headers and only one row of data. The file ", path, " has ", nrow(d), " rows though!"))
