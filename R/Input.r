@@ -154,7 +154,7 @@ Input = R6::R6Class(
 
         isAThreadAvailable = function(maxNbThreads)
         {
-            while (isOtherProcessCheckingThreads)
+            while (private$shared$isOtherProcessCheckingThreads)
             {
                 Sys.sleep(0.001)
             }
@@ -173,7 +173,7 @@ Input = R6::R6Class(
                 }
             }
 
-            r = length(private$shared$runningThreads) <  maxNbThreads
+            r = length(private$shared$runningThreads) < maxNbThreads
             private$shared$isOtherProcessCheckingThreads = FALSE
             return(r)
         },
@@ -184,7 +184,7 @@ Input = R6::R6Class(
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
     
-            while (!isAThreadAvailable(maxNbThreads))
+            while (!self$isAThreadAvailable(maxNbThreads))
             {
                 Sys.sleep(sleepTimeInSec)
             }
@@ -202,7 +202,6 @@ Input = R6::R6Class(
                     Sys.sleep(sleepTimeInSec)
                 }
             }
-        
         }
     )
 )
