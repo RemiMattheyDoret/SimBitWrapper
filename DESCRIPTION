@@ -15,5 +15,6 @@ Depends:
     R (>= 2.15),
 Imports:
     data.table
+    processx
 Suggests:
 URL: https://github.com/RemiMattheyDoret

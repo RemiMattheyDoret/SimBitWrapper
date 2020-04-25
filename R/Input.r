@@ -189,7 +189,7 @@ Input = R6::R6Class(
                 Sys.sleep(sleepTimeInSec)
             }
 
-            newThread = processx::process$new(exec, paste(data, collapse=" "))
+            newThread = processx::process$new(exec, paste(private$data, collapse=" "))
 
             #newThread = system(paste(exec, paste(data, collapse=" "), "& &> /dev/null; echo $!"), intern = TRUE)
 
