@@ -163,7 +163,7 @@ Input = R6::R6Class(
             thread_index = 1
             while (thread_index <= length(private$shared$runningThreads))
             {
-                thread = private$shared$runningThreads[thread_index]
+                thread = private$shared$runningThreads[[thread_index]]
                 if (!thread$is_alive())
                 {
                     private$shared$runningThreads = private$shared$runningThreads[-thread_index]
@@ -183,15 +183,13 @@ Input = R6::R6Class(
         {
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
-    
+
             while (!self$isAThreadAvailable(maxNbThreads))
             {
                 Sys.sleep(sleepTimeInSec)
             }
 
             newThread = processx::process$new(exec, paste(private$data, collapse=" "))
-
-            #newThread = system(paste(exec, paste(data, collapse=" "), "& &> /dev/null; echo $!"), intern = TRUE)
 
             private$shared$runningThreads = c(private$shared$runningThreads, newThread)
 
