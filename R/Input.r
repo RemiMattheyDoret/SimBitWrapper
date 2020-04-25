@@ -179,12 +179,12 @@ Input = R6::R6Class(
         },
 
 
-        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 1)
+        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 1, waitEndOfThread = FALSE)
         {
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
     
-            while (!isAThreadAvailable(maxNbThreads))
+            while (!Public::isAThreadAvailable(maxNbThreads))
             {
                 Sys.sleep(sleepTimeInSec)
             }
@@ -194,7 +194,20 @@ Input = R6::R6Class(
             #newThread = system(paste(executable, paste(parameters, collapse=" "), "& &> /dev/null; echo $!"), intern = TRUE)
 
             private$shared$runningThreads = c(private$shared$runningThreads, newThread)
+
+            if (waitEndOfThread)
+            {
+                while (newThread$is_alive())
+                {
+                    Sys.sleep(sleepTimeInSec)
+                }
+            }
         
+        }, 
+
+        print = function()
+        {
+            catCommand(oneLine=TRUE)
         }
     )
 )
