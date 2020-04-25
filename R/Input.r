@@ -184,7 +184,7 @@ Input = R6::R6Class(
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
     
-            while (!Public::isAThreadAvailable(maxNbThreads))
+            while (!self$isAThreadAvailable(maxNbThreads))
             {
                 Sys.sleep(sleepTimeInSec)
             }
@@ -203,25 +203,9 @@ Input = R6::R6Class(
                 }
             }
         
-        }, 
-
-        print = function()
-        {
-            catCommand(oneLine=TRUE)
         }
     )
 )
 
 
 
-
-#### Example
-# input = Input$new("Test","1","/Users/remi/test")
-# input$set("PN", 1)
-# input$set("N", "unif 100")
-# input$set("L", "T1 8")
-# input$set("T1_mu", "unif 1e-7")
-# input$set("nbGens", "100")
-# input$catCommand(oneLine = TRUE)
-# input$print("path/to/file.txt", append=FALSE, oneLine=FALSE)
-# runSimBit("SimBit", "path/to/file.txt", "a")
