@@ -2,7 +2,7 @@ defaultFunctionForGatherData = function(path)
 {
 	directory = sub("/[^/]+$","",path)
 	pattern   = paste0(sub(".*/.*[^/]/+","",path), "\\.")
-	file = list.files(path=directory, pattern=pattern)
+	file = paste0(directory, "/",list.files(path=directory, pattern=pattern))
 	if (length(file) == 0)
 	{
 		stop(paste0("In the default function 'fun' of 'gatherData', tried to find a single file associate with path '", path, "'. (dir:", directory, " | pattern:", pattern, ") but none was found."))

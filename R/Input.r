@@ -179,7 +179,7 @@ Input = R6::R6Class(
         },
 
 
-        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 1, waitEndOfThread = FALSE)
+        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 1, runInBackground = ifelse(maxNbThreads==1, FALSE, TRUE), stdin = NULL, stdout = NULL)
         {
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
@@ -189,11 +189,11 @@ Input = R6::R6Class(
                 Sys.sleep(sleepTimeInSec)
             }
 
-            newThread = processx::process$new(exec, paste(private$data, collapse=" "))
+            newThread = processx::process$(exec, paste(private$data, collapse=" "), stdin = stdin, stdout = stdout)
 
             private$shared$runningThreads = c(private$shared$runningThreads, newThread)
 
-            if (waitEndOfThread)
+            if (!runInBackground)
             {
                 while (newThread$is_alive())
                 {
