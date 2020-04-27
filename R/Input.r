@@ -13,7 +13,6 @@ Input = R6::R6Class(
 
     ### Private members
     private = list(
-        runningThreads = c(),
         data = "",
         shared = {
             env = new.env()
