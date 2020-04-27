@@ -189,7 +189,7 @@ Input = R6::R6Class(
                 Sys.sleep(sleepTimeInSec)
             }
 
-            newThread = processx::process$(exec, paste(private$data, collapse=" "), stdin = stdin, stdout = stdout)
+            newThread = processx::process$new(exec, paste(private$data, collapse=" "), stdin = stdin, stdout = stdout)
 
             private$shared$runningThreads = c(private$shared$runningThreads, newThread)
 

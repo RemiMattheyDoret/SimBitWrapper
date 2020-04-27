@@ -16,7 +16,7 @@ defaultFunctionForGatherData = function(path)
 	d = data.table::fread(file, header=TRUE)
 	if (nrow(d) > 1)
 	{
-		stop(paste0("The default 'fun' argument to 'gatherData' assumes that each file has headers and only one row of data. The file ", path, " has ", nrow(d), " rows though!"))
+		d = d[-(1:(nrow(d)-1)),]
 	}
 	return(d)
 }
