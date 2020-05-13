@@ -1,4 +1,4 @@
-associateFilePathFromPrefix(prefix)
+associateFilePathFromPrefix = function(prefix)
 {
 	directory = sub("/[^/]+$","",prefix)
 	pattern   = paste0(sub(".*/.*[^/]/+","",prefix), "\\.")
