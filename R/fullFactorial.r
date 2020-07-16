@@ -1,4 +1,4 @@
-fullFactorial = function(..., outputFilePrefix = NULL)
+fullFactorial = function(..., simIDprefix = NULL)
 {
 	input = list(...)
 	
@@ -50,9 +50,9 @@ fullFactorial = function(..., outputFilePrefix = NULL)
 	}
 	names(SGrid) = Names
 
-	if (!is.null(outputFilePrefix))
+	if (!is.null(simIDprefix))
 	{
-		SGrid$outputFile = paste0(outputFilePrefix, 1:nrow(SGrid))
+		SGrid$simulationID = paste0(simIDprefix, 1:nrow(SGrid))
 	}
 
 	return(SGrid)
