@@ -144,18 +144,18 @@ Input = R6::R6Class(
         {
             if (oneLine)
             {
-                cat( paste(private$data, collapse=" ") )
+                cat( paste(paste(private$data, collapse=" "), "\n") )
             } else
             {
-                cat( paste(private$data, collapse="\n") )
+                cat( paste(paste(private$data, collapse="\n"), "\n") )
             }
         },
 
-        isAThreadAvailable = function(maxNbThreads)
+        isAThreadAvailable = function(maxNbThreads, sleepTimeInSec)
         {
             while (private$shared$isOtherProcessCheckingThreads)
             {
-                Sys.sleep(0.001)
+                Sys.sleep(sleepTimeInSec)
             }
             private$shared$isOtherProcessCheckingThreads = TRUE
 
@@ -178,17 +178,17 @@ Input = R6::R6Class(
         },
 
 
-        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 1, runInBackground = ifelse(maxNbThreads==1, FALSE, TRUE), stdin = NULL, stdout = NULL)
+        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 0.5, runInBackground = ifelse(maxNbThreads==1, FALSE, TRUE), stdout = NULL, stderr = NULL)
         {
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
 
-            while (!self$isAThreadAvailable(maxNbThreads))
+            while (!self$isAThreadAvailable(maxNbThreads, sleepTimeInSec))
             {
                 Sys.sleep(sleepTimeInSec)
             }
 
-            newThread = processx::process$new(exec, paste(private$data, collapse=" "), stdin = stdin, stdout = stdout)
+            newThread = processx::process$new(exec, paste(private$data, collapse=" "), stdout = stdout, stderr = stderr)
 
             private$shared$runningThreads = c(private$shared$runningThreads, newThread)
 
