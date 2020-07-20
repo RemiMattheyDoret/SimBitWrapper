@@ -13,7 +13,7 @@ Input = R6::R6Class(
 
     ### Private members
     private = list(
-        data = "",
+        data = NULL,
         shared = {
             env = new.env()
             env$runningThreads = c()
@@ -188,9 +188,6 @@ Input = R6::R6Class(
                 Sys.sleep(sleepTimeInSec)
             }
 
-
-
-            print(paste(exec, paste(private$data, collapse=" ")))
 
             newThread = processx::process$new(exec, paste(private$data, collapse=" "), stdout = stdout, stderr = stderr)
 
