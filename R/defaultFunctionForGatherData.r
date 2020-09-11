@@ -1,6 +1,6 @@
 defaultFunctionForGatherData = function(prefix)
 {
-	path = getFilePathFromPrefix(prefix)
+	path = associateFilePathFromPrefix(prefix)
 
 	d = data.table::fread(file, header=TRUE)
 	if (nrow(d) > 1)
