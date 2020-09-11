@@ -62,7 +62,7 @@ fullFactorial = function(..., outputFilePrefix = NULL)
 
 	if (!is.null(outputFilePrefix))
 	{
-		SGrid$simulationID = paste0(outputFilePrefix, 1:nrow(SGrid))
+		SGrid$outputFile = paste0(outputFilePrefix, 1:nrow(SGrid))
 	}
 
 	return(SGrid)
