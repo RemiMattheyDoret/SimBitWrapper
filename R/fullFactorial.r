@@ -37,7 +37,7 @@ fullFactorial = function(..., outputFilePrefix = NULL)
 	Cols = FirstCol
 	for (big in 1:length(input))
 	{
-		if (length(input[[big]]) > 1)
+		if (class(input[[big]]) == "list" & length(input[[big]]) > 1)
 		{
 			for (small in 2:length(input[[big]]))
 			{
