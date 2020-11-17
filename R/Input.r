@@ -119,17 +119,28 @@ Input = R6::R6Class(
         },
 
         ### just write
-        write = function(text, appendToPrevious=FALSE)
+        write = function(..., appendToPrevious=FALSE)
         {
-            stopifnot(class(text) == "character")
-            stopifnot(length(text) == 1)
+            entries = list(...)
+            for (entry_index in 1:length(entries))
+            {
+                if (any(class(entries[[entry_index]]) == "data.frame"))
+                {
+                    entries[[entry_index]] = as.matrix(entries[[entry_index]])   
+                }
+                entries[[entry_index]] = paste(entries[[entry_index]], collapse=" ")
+            }
+            entry = paste(entries, collapse=" ")
+
+            stopifnot(class(entry) == "character")
+            stopifnot(length(entry) == 1)
             
             if (appendToPrevious)
             {
-                private$data[length(private$data)] = paste(private$data[length(private$data)], text)
+                private$data[length(private$data)] = paste(private$data[length(private$data)], entry)
             } else
             {
-                private$data[length(private$data)+1] = text
+                private$data[length(private$data)+1] = entry
             }
         },
 
