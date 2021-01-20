@@ -6,7 +6,7 @@
 using namespace Rcpp;
 
 // reduceString
-List reduceString();
+std::string reduceString();
 RcppExport SEXP _SimBitWrapper_reduceString() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
