@@ -15,18 +15,3 @@ Depends: R (>= 2.15)
 Imports: data.table, processx, Rcpp
 Suggests:
 URL: https://github.com/RemiMattheyDoret
-mypackage/R:
-	associateFilePathFromPrefix.r
-	defaultFunctionForGatherData.r
-	fullFactorial.r
-	gatherData.r
-	GetParameterGridData.r
-	Input.r
-	inputDemography.r
-	runSimBit.r
-
-mypackage/src:
-	Makevars      # until Rcpp 0.10.6, see below
-	Makevars.win  # until Rcpp 0.10.6, see below
-	RcppExports.cpp
-	reduceString.cpp
