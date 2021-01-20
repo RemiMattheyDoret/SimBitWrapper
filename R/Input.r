@@ -1,5 +1,5 @@
 
-cppFunction('
+Rcpp::cppFunction('
     std::string reduceString(CharacterVector& x)
     {
         size_t nbRepeats = 0;
