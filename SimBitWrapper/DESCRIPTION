@@ -1,12 +1,16 @@
 Package: SimBitWrapper
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
-Version: 1.0
+Title: R wrapper for SimBit
+Version: 5.1.0
 Date: 2021-01-20
-Author: Your Name
+Authors@R: 
+    person(given = "Remi",
+           family = "Matthey-Doret",
+           role = c("aut", "cre"),
+           email = "remi.b.md@gmail.com",
+           comment = c(ORCID = "0000-0001-5614-5629"))
 Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one
-        or more full sentences.
+Description: The package is a wrapper for SimBit (SimBit is a simulation platform for evolutionary genetic studies). Please see the SimBit manual (at https://github.com/RemiMattheyDoret/SimBit) for description of how to use this SimBitWrapper package.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.4)
+Imports: Rcpp (>= 1.0.6), data.table, processx
 LinkingTo: Rcpp
