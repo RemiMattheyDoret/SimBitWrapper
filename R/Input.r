@@ -1,4 +1,57 @@
 
+cppFunction('
+    std::string reduceString(CharacterVector& x)
+    {
+        size_t nbRepeats = 0;
+        std::string r = "";
+        std::string lastStr = "";
+        for (size_t i = 0 ; i < x.size() ; ++i)
+        {
+            std::istringstream iss(Rcpp::as<std::string>(x[i]));
+            std::string str;
+
+            while (iss >> str)
+            {
+                if (str == lastStr)
+                {
+                    ++nbRepeats;
+                } else
+                {
+                    if (nbRepeats > 0)
+                    {
+                        if (nbRepeats == 1)
+                        {
+                           r += lastStr + " "; 
+                        } else if (nbRepeats == 2)
+                        {
+                           r += lastStr + " " + lastStr + " "; 
+                        } else
+                        {
+                            r += "REP " + lastStr + " " + std::to_string(nbRepeats) + " ";
+                        }
+                    }
+
+                    nbRepeats = 1;
+                    lastStr = str;
+                }
+            }
+        }
+
+        if (nbRepeats == 1)
+        {
+           r += lastStr; 
+        } else if (nbRepeats == 2)
+        {
+           r += lastStr + " " + lastStr; 
+        } else
+        {
+            r += "REP " + lastStr + " " + std::to_string(nbRepeats);
+        }
+
+        return r;
+    }
+')
+
 
 
 ###################
@@ -86,6 +139,22 @@ Input = R6::R6Class(
         },
 
 
+        ### Write object InpputDemography
+        writeDemography = function(o)
+        {
+            if (!any(class(o) == "InputDemography"))
+            {
+                stop("In function 'writeDemography', expected an object of class 'InputDemography' but got [", paste(class(o), collapse=" "), "] instead")
+            }
+
+            l = o$finalize()
+            stopifnot(names(l) == c("PN","N","m"))
+            self$set("PN", l$PN)
+            self$set("N", l$N)
+            self$set("m", l$m)
+        },
+
+
         ### Set option
         set = function(optionName, ..., newline=TRUE)
         {
@@ -107,13 +176,25 @@ Input = R6::R6Class(
             entries = list(...)
             for (entry_index in 1:length(entries))
             {
+                if (any(class(entries[[entry_index]]) == "list"))
+                {
+                    stop("In method 'set', received a list as argument. Please input vectors of values and do not wrap those in lists.")
+                }
+
                 if (any(class(entries[[entry_index]]) == "data.frame"))
                 {
                     entries[[entry_index]] = as.matrix(entries[[entry_index]])   
                 }
                 entries[[entry_index]] = paste(entries[[entry_index]], collapse=" ")
             }
-            entry = paste(entries, collapse=" ")
+            if (length(entries) > 1)
+            {
+                entry = reduceString(paste(entries, collapse=" "))
+            } else
+            {
+                entry = reduceString(entries[[1]])
+            }
+                
 
             private$data[length(private$data)+1] = paste0("--", optionName, " ", entry)
         },
@@ -124,13 +205,18 @@ Input = R6::R6Class(
             entries = list(...)
             for (entry_index in 1:length(entries))
             {
+                if (any(class(entries[[entry_index]]) == "list"))
+                {
+                    stop("In method 'set', received a list as argument. Please input vectors of values and do not wrap those in lists.")
+                }
                 if (any(class(entries[[entry_index]]) == "data.frame"))
                 {
                     entries[[entry_index]] = as.matrix(entries[[entry_index]])   
                 }
                 entries[[entry_index]] = paste(entries[[entry_index]], collapse=" ")
             }
-            entry = paste(entries, collapse=" ")
+            entry = reduceString(paste(entries, collapse=" "))
+
 
             stopifnot(class(entry) == "character")
             stopifnot(length(entry) == 1)
