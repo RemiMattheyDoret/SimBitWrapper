@@ -5,19 +5,19 @@
 
 using namespace Rcpp;
 
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _SimBitWrapper_rcpp_hello_world() {
+// reduceString
+List reduceString();
+RcppExport SEXP _SimBitWrapper_reduceString() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
+    rcpp_result_gen = Rcpp::wrap(reduceString());
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_SimBitWrapper_rcpp_hello_world", (DL_FUNC) &_SimBitWrapper_rcpp_hello_world, 0},
+    {"_SimBitWrapper_reduceString", (DL_FUNC) &_SimBitWrapper_reduceString, 0},
     {NULL, NULL, 0}
 };
 
