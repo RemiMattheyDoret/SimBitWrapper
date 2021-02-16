@@ -16,6 +16,7 @@ Input = R6::R6Class(
             env = new.env()
             env$runningThreads = c()
             env$isOtherProcessCheckingThreads = FALSE
+            #env$tmpFiles = c()
             env
         }
         #shared = {
@@ -197,6 +198,8 @@ Input = R6::R6Class(
 
         isAThreadAvailable = function(maxNbThreads, sleepTimeInSec, stdout, stderr)
         {
+            #stopifnot(length(private$shared$tmpFiles) == length(private$shared$runningThreads))
+
             while (private$shared$isOtherProcessCheckingThreads)
             {
                 Sys.sleep(sleepTimeInSec)
@@ -226,6 +229,11 @@ Input = R6::R6Class(
                     }
 
                     private$shared$runningThreads = private$shared$runningThreads[-thread_index]
+                    #if (private$shared$tmpFiles[thread_index] != "")
+                    #{
+                    #    file.remove(private$shared$tmpFiles[thread_index])
+                    #}
+                    #private$shared$tmpFiles = private$shared$tmpFiles[-thread_index]
                 } else
                 {
                     thread_index = thread_index + 1
@@ -238,7 +246,7 @@ Input = R6::R6Class(
         },
 
 
-        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 0.05, runInBackground = ifelse(maxNbThreads==1, FALSE, TRUE), stdout = "|", stderr = "|")
+        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 0.05, runInBackground = ifelse(maxNbThreads==1, FALSE, TRUE), stdout = "|", stderr = "|", useTmpFile = TRUE)
         {
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
@@ -248,8 +256,22 @@ Input = R6::R6Class(
                 Sys.sleep(sleepTimeInSec)
             }
 
-            #print(paste(private$data, collapse=" "))
-            newThread = processx::process$new(exec, paste(private$data, collapse=" "), stdout = stdout, stderr = stderr)
+            if (useTmpFile)
+            {
+                tmpFile = tempfile()
+                self$set("removeInputFileAfterReading", "t") # This ensures that SimBit remove the temporary file after reading it
+                self$print(tmpFile)
+                #private$shared$tmpFiles = c(private$shared$tmpFiles, tmpFile)
+                newThread = processx::process$new(exec, c("f", tmpFile, "a"), stdout = stdout, stderr = stderr)
+
+            } else
+            {
+                #private$tmpFiles[length(private$tmpFiles) + 1] = ""
+                newThread = processx::process$new(exec, paste(private$data, collapse=" "), stdout = stdout, stderr = stderr)
+            }
+
+
+                
 
             private$shared$runningThreads = c(private$shared$runningThreads, newThread)
 
