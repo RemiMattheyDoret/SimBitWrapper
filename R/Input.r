@@ -195,7 +195,7 @@ Input = R6::R6Class(
             }
         },
 
-        isAThreadAvailable = function(maxNbThreads, sleepTimeInSec)
+        isAThreadAvailable = function(maxNbThreads, sleepTimeInSec, stdout, stderr)
         {
             while (private$shared$isOtherProcessCheckingThreads)
             {
@@ -243,7 +243,7 @@ Input = R6::R6Class(
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
 
-            while (!self$isAThreadAvailable(maxNbThreads, sleepTimeInSec))
+            while (!self$isAThreadAvailable(maxNbThreads, sleepTimeInSec, stdout, stderr))
             {
                 Sys.sleep(sleepTimeInSec)
             }
