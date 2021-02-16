@@ -145,8 +145,10 @@ Input = R6::R6Class(
         },
 
         ### just write
-        write = function(..., appendToPrevious=FALSE)
+        write = function(..., newLine=FALSE)
         {
+            stopifnot(class(newLine) == "logical")
+
             entries = list(...)
             for (entry_index in 1:length(entries))
             {
@@ -166,7 +168,7 @@ Input = R6::R6Class(
             stopifnot(class(entry) == "character")
             stopifnot(length(entry) == 1)
             
-            if (appendToPrevious)
+            if (!newLine)
             {
                 private$data[length(private$data)] = paste(private$data[length(private$data)], entry)
             } else
@@ -207,6 +209,22 @@ Input = R6::R6Class(
                 thread = private$shared$runningThreads[[thread_index]]
                 if (!thread$is_alive())
                 {
+                    if (!is.null(stdout))
+                    {
+                        if (stdout == "|")
+                        {
+                            cat(paste(paste(thread$read_output_lines(), collapse="\n"), "\n"))
+                        }
+                    }
+
+                    if (!is.null(stderr))
+                    {
+                        if (stderr == "|")
+                        {
+                            cat(paste(paste(thread$read_error_lines(), collapse="\n"), "\n"))
+                        }
+                    }
+
                     private$shared$runningThreads = private$shared$runningThreads[-thread_index]
                 } else
                 {
@@ -220,7 +238,7 @@ Input = R6::R6Class(
         },
 
 
-        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 0.5, runInBackground = ifelse(maxNbThreads==1, FALSE, TRUE), stdout = NULL, stderr = NULL)
+        run = function(exec = "SimBit", maxNbThreads = 1, sleepTimeInSec = 0.05, runInBackground = ifelse(maxNbThreads==1, FALSE, TRUE), stdout = "|", stderr = "|")
         {
             stopifnot(maxNbThreads > 0)
             stopifnot(sleepTimeInSec >= 0)
@@ -240,6 +258,22 @@ Input = R6::R6Class(
                 while (newThread$is_alive())
                 {
                     Sys.sleep(sleepTimeInSec)
+                }
+
+                if (!is.null(stdout))
+                {
+                    if (stdout == "|")
+                    {
+                        cat(paste(paste(newThread$read_output_lines(), collapse="\n"), "\n"))
+                    }
+                }
+
+                if (!is.null(stderr))
+                {
+                    if (stderr == "|")
+                    {
+                        cat(paste(paste(newThread$read_error_lines(), collapse="\n"), "\n"))
+                    }
                 }
             }
         }
