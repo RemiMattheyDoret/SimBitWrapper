@@ -101,6 +101,36 @@ Input = R6::R6Class(
         },
 
 
+        ### Erase option previously set
+        erase = function(optionName)
+        {
+            seekFor = paste0("--", optionName)
+            row = 1
+            nbRowsRemoved = 0
+            while (row < length(private$data))
+            {
+                if (substr(private$data[row], 1, length(optionName) + 2) == seekFor)
+                {
+                    private$data = private$data[-row]
+                    nbRowsRemoved = nbRowsRemoved + 1
+                } else
+                {
+                    row = row + 1
+                }
+            }
+
+            cat(paste("Method 'erase' erased", nbRowsRemoved, "row(s).\n"))
+        },
+
+
+        ### reset option
+        reset = function(optionName, ..., newline=TRUE)
+        {
+            self$erase(optionName)
+            self$set(optionName, ..., newline=newline)
+        },
+
+
         ### Set option
         set = function(optionName, ..., newline=TRUE)
         {
