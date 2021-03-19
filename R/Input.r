@@ -109,7 +109,7 @@ Input = R6::R6Class(
             nbRowsRemoved = 0
             while (row < length(private$data))
             {
-                if (substr(private$data[row], 1, length(optionName) + 2) == seekFor)
+                if (substr(private$data[row], 1, nchar(optionName) + 2) == seekFor)
                 {
                     private$data = private$data[-row]
                     nbRowsRemoved = nbRowsRemoved + 1
