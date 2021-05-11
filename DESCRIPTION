@@ -1,6 +1,6 @@
 Package: SimBitWrapper
 Title: R wrapper for SimBit
-Version: 5.1.5
+Version: 5.2.0
 Authors@R: 
     person(given = "Remi",
            family = "Matthey-Doret",

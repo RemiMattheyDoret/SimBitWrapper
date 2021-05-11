@@ -84,8 +84,23 @@ Input = R6::R6Class(
             write(paste(private$data, collapse=sep), path, append=append)
         },
 
+        ### Write genetic segments
+        writeGenetics = function(o)
+        {
+            if (!any(class(o) == "GeneticSegment"))
+            {
+                stop("In function 'writeGenetics', expected an object of class 'GeneticSegment' but got [", paste(class(o), collapse=" "), "] instead")
+            }
 
-        ### Write object InpputDemography
+            l = o$finalize()
+
+            for (i in 1:length(l))
+            {
+                self$set(names(l)[i], l[[i]])
+            }
+        },
+
+        ### Write object InputDemography
         writeDemography = function(o)
         {
             if (!any(class(o) == "InputDemography"))
@@ -102,7 +117,7 @@ Input = R6::R6Class(
 
 
         ### Erase option previously set
-        erase = function(optionName)
+        erase = function(optionName, verbose = TRUE)
         {
             seekFor = paste0("--", optionName)
             row = 1
@@ -119,14 +134,14 @@ Input = R6::R6Class(
                 }
             }
 
-            cat(paste("Method 'erase' erased", nbRowsRemoved, "row(s).\n"))
+            if (verbose) cat(paste("Method 'erase' erased", nbRowsRemoved, "row(s).\n"))
         },
 
 
         ### reset option
-        reset = function(optionName, ..., newline=TRUE)
+        reset = function(optionName, ..., newline=TRUE, verbose = TRUE)
         {
-            self$erase(optionName)
+            self$erase(optionName, verbose)
             self$set(optionName, ..., newline=newline)
         },
 
@@ -292,6 +307,7 @@ Input = R6::R6Class(
                 self$set("removeInputFileAfterReading", "t") # This ensures that SimBit remove the temporary file after reading it
                 self$print(tmpFile)
                 #private$shared$tmpFiles = c(private$shared$tmpFiles, tmpFile)
+                print(paste(exec, c("f", tmpFile, "a")))
                 newThread = processx::process$new(exec, c("f", tmpFile, "a"), stdout = stdout, stderr = stderr)
 
             } else
